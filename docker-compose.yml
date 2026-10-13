@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ktb
+      POSTGRES_PASSWORD: ktb
+      POSTGRES_DB: ktb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  # Uncomment when the workflow engine lands (phase 3).
+  # temporal:
+  #   image: temporalio/auto-setup:1.25
+  #   depends_on: [postgres]
+  #   environment:
+  #     DB: postgres12
+  #     DB_PORT: 5432
+  #     POSTGRES_USER: ktb
+  #     POSTGRES_PWD: ktb
+  #     POSTGRES_SEEDS: postgres
+  #   ports:
+  #     - "7233:7233"
+
+volumes:
+  pgdata:
